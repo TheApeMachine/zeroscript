@@ -1,0 +1,24 @@
+// WRITE SOME TEXT TO THE TERMINAL
+
+"Hello World"
+
+// BASIC JUMPS AND RETURNS
+
+"Started from the bottom..."
+"...And we're back here."
+goto now
+
+now:
+  "...Now we're here..."
+
+// BASIC IF/ELSE LOOP
+
+x = 1
+
+x < 1 {
+  "here..."
+} or x > 1 {
+  "or here..."
+} or {
+  "else here..."
+}
