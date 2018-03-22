@@ -1,0 +1,16 @@
+/*
+  Any included file is automatically defined as a class.
+*/
+
+// INCLUDES
+<- animal
+
+// OVERRIDE THE SOUND FUNCTION INCLUDED FROM ANIMAL
+sound() {
+  x = "Woof!"
+
+  animal.sound() != x {
+    // COUNTS AS LAST EXECUTABLE LINE AND THUS IS RETURN VALUE
+    x
+  }
+}

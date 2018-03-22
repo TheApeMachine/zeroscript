@@ -6,6 +6,12 @@
   to make it a generic programming language.
 */
 
+// INCLUDES
+<- dog
+
+// USE OUR INCLUDED CLASS
+dog.sound()
+
 // WRITE SOME TEXT TO THE TERMINAL
 "Hello World"
 
@@ -43,7 +49,7 @@ x == 1 {
 } x > 0 {
   // BECAUSE NO OR IS USED HERE THIS WORKS AS FALL-THROUGH CASE
   "This will also print"
-} or x < 2
+} or x < 2 {
   // BECAUSE OR IS USED HERE, THIS WORKS AS ELSE IF.
   "This will not print"
 } or {
