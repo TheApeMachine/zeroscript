@@ -1,18 +1,30 @@
-// WRITE SOME TEXT TO THE TERMINAL
+/*
+  GOAL:
 
+  The goal of zeroscript is to be a cleanly structured, minimal language.
+  There will be very little functionality built-in, only what is needed
+  to make it a generic programming language.
+*/
+
+// WRITE SOME TEXT TO THE TERMINAL
 "Hello World"
 
 // BASIC JUMPS AND RETURNS
-
 "Started from the bottom..."
-"...And we're back here."
 goto now
+"...And we're back here."
 
 now:
   "...Now we're here..."
 
-// BASIC IF/ELSE LOOP
+/*
+  CONDITIONALS:
 
+  There is only one type of conditional checking, which will be a mix
+  of IF and SWITCH as defined in many other languages.
+*/
+
+// BASIC IF/ELSE LOOP
 x = 1
 
 x < 1 {
@@ -22,3 +34,64 @@ x < 1 {
 } or {
   "else here..."
 }
+
+// IF ELSE LOOP THAT ALLOWS FOR FALL-THROUGH CASE (LIKE SWITCH)
+x = 1
+
+x == 1 {
+  "This will print"
+} x > 0 {
+  // BECAUSE NO OR IS USED HERE THIS WORKS AS FALL-THROUGH CASE
+  "This will also print"
+} or x < 2
+  // BECAUSE OR IS USED HERE, THIS WORKS AS ELSE IF.
+  "This will not print"
+} or {
+  "This will not print"
+}
+
+// IF ELSE LOOP WITH BOOLEAN OPERATORS
+
+x = 1
+
+x == 1 && x < 2 {
+  "This will print"
+} x == 1 || x > 0 {
+  "This will be checked (fall-through) and will print"
+} or x == 1 && x != 2 {
+  print "This will not be checked (no fall-through)"
+} or {
+  "This will not print"
+}
+
+// LOOP OVER AN ARRAY OF NUMBERS
+[1, 2, 3, 4, 5, 6, 7, 8, 9] i {
+  i
+}
+
+// DEFINE A FUNCTION
+f() {
+  // RETURNS ITS LAST LINE AS VALUE
+  4
+}
+
+// DEFINE A FUNCTION WITH INPUT VARIABLE
+f(x) {
+  // RETURN ITS LAST LINE AS VALUE (x + 10 + 1)
+  x += 10
+  x++
+}
+
+// DEFINE A FUNCTION TO SUM A VARIABLE AMOUNT OF INTEGERS
+sum(*values) {
+  // RETURNS ITS LAST LINE AS VALUE
+  values[0] + values[1] + values[3]
+}
+
+// CALL A FUNCTION
+y = f(10)
+//=> 21
+
+// CALL FUNCTION WITH ANOTHER FUNCTION AS INPUT
+y = f(f())
+//=> 15

@@ -30,6 +30,7 @@ strings Lexer::lex(std::string s) {
         } else {
           state = READCHAR;
         }
+
         break;
       case READCHAR:
         if(my_isspace(s[i])) {
@@ -53,8 +54,8 @@ strings Lexer::lex(std::string s) {
 
           state = DUMP;
         } else if(s[i] == '/' && s[i + 1] == '/') {
-          i += 2;
-          state = COMMENT;
+          i     += 2;
+          state  = COMMENT;
         } else {
           lexeme[j] = s[i];
           j++;
@@ -150,6 +151,11 @@ bool Lexer::isgroup(char c) {
       end_char = ')';
       return true;
     case ')':
+      return true;
+    case '{':
+      end_char = '}';
+      return true;
+    case '}':
       return true;
     default:
       return false;
