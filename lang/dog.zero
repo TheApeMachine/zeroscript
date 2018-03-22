@@ -5,8 +5,8 @@
 // INCLUDES
 <- animal
 
-// OVERRIDE THE SOUND FUNCTION INCLUDED FROM ANIMAL
-sound() {
+// OVERRIDE THE SOUND FUNCTION INCLUDED FROM ANIMAL, DEFINE AS PUBLIC FUNCTION
+-> sound() {
   x = "Woof!"
 
   animal.sound() != x {

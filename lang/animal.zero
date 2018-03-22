@@ -1,3 +1,14 @@
-sound() {
-  "All animals say whatever..."
+// GLOBAL VARIABLE
+
+default_sound = "Any sound..."
+
+// PUBLIC FUNCTION
+-> sound() {
+  // RETURNS THE RETURN VALUE OF PRIVATE FUNCTION
+  set_default_sound()
+}
+
+// PRIVATE FUNCTION
+set_default_sound() {
+  default_sound = "Animals say whatever by default..."
 }
