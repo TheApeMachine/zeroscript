@@ -9,8 +9,11 @@
 // INCLUDES
 <- dog
 
-// USE OUR INCLUDED CLASS
-dog.sound()
+// INSTANTIATE OUR INCLUDED CLASS
+puppy = dog.init()
+
+// USE OUR INSTATIATED CLASS
+puppy.sound()
 
 // WRITE SOME TEXT TO THE TERMINAL
 "Hello World"
@@ -65,7 +68,7 @@ x == 1 && x < 2 {
 } x == 1 || x > 0 {
   "This will be checked (fall-through) and will print"
 } or x == 1 && x != 2 {
-  print "This will not be checked (no fall-through)"
+  "This will not be checked (no fall-through)"
 } or {
   "This will not print"
 }

@@ -25,8 +25,11 @@ strings Lexer::lex(std::string s) {
 
           state = READBLOCK;
         } else if(s[i] == '/' && s[i + 1] == '/') {
-          i += 2;
-          state = COMMENT;
+          i     += 2;
+          state  = COMMENT;
+        } else if(s[i] == '/' && s[i + 1] == '*') {
+          i     += 2;
+          state  = COMMENT;
         } else {
           state = READCHAR;
         }
@@ -54,6 +57,9 @@ strings Lexer::lex(std::string s) {
 
           state = DUMP;
         } else if(s[i] == '/' && s[i + 1] == '/') {
+          i     += 2;
+          state  = COMMENT;
+        } else if(s[i] == '/' && s[i + 1] == '*') {
           i     += 2;
           state  = COMMENT;
         } else {

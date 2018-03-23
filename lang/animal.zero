@@ -2,6 +2,12 @@
 
 default_sound = "Any sound..."
 
+// INITIALIZER
+
+-> init() {
+  // DO SOME INITIALIZATION HERE...
+}
+
 // PUBLIC FUNCTION
 -> sound() {
   // RETURNS THE RETURN VALUE OF PRIVATE FUNCTION
