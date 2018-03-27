@@ -10,7 +10,8 @@ class Lexer
     @state    = :start
     @tokens   = []
     @keywords = [
-      'goto'
+      'goto',
+      'stop'
     ]
   end
 
@@ -31,13 +32,16 @@ class Lexer
         end
       when :readchar
         if char == '"'
-          @tokens << {id: :string, value: token.join}
-          token    = []
-          @state   = :start
+          if token.join != '  '
+            @tokens << {id: :string, value: token.join}
+          end
+
+          token  = []
+          @state = :start
         elsif @keywords.include?(token.join)
           @tokens << {id: :keyword, value: token.join}
           token    = []
-          @state   = :start
+          @state   = :readarg
         elsif char == ":"
           @tokens << {id: :label, value: token.join}
           token    = []
@@ -46,6 +50,21 @@ class Lexer
           if !["\n"].include?(char)
             token << char
             @state = :readchar
+          end
+        end
+      when :readarg
+        if char == ' '
+          @tokens << {id: :arg, value: token.join}
+          token    = []
+          @state   = :readarg
+        else
+          if !["\n"].include?(char)
+            token << char
+            @state = :readarg
+          else
+            @tokens << {id: :arg, value: token.join}
+            token    = []
+            @state   = :start
           end
         end
       end

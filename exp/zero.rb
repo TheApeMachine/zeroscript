@@ -33,23 +33,34 @@ class ZeroScript
     puts "--------\n\n"
   end
 
-  def run
-    puts "RUNTIME:"
-    puts "--------"
+  def run(ast=@ast)
+    if ast.class == Array
+      ast.each do |a|
+        if a.class == Hash
+          key = a.keys[0]
+          val = a.values[0]
 
-    @ast.each do |ast|
-      if ast.class == Hash
-        ast.each do |key, value|
-          send(key)
+          send(key, val)
         end
       end
+    elsif ast.class == Hash
+      if ast.values[0].class == Array
+        run(ast.values[0])
+      end
     end
-
-    puts "--------\n\n"
   end
 
-  def method_missing(m)
-    puts m
+  def goto(label)
+    # raise @ast.select{|a| a[label]}.first.inspect
+    run(@ast.select{|a| a[label]}.first)
+  end
+
+  def stop(code)
+    exit
+  end
+
+  def method_missing(m, *args)
+    puts "#{m} #{args.join(' ')}"
   end
 
 end
@@ -57,4 +68,8 @@ end
 zero = ZeroScript.new(ARGV[0])
 zero.lexer()
 zero.parser()
+
+puts "RUNTIME:"
+puts "--------"
 zero.run()
+puts "--------\n\n"

@@ -1,6 +1,7 @@
 "Hello World"
 goto jump_here
 "And we are back..."
+stop
 
 jump_here:
   "We are here"
