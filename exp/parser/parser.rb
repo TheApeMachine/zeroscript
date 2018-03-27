@@ -7,15 +7,12 @@ class Parser
 
   def run
     @tokens.each do |token|
-      if token[:id] == :char
+      if token[:id] == :string
+        @ast << {token[:value] => nil}
+      elsif token[:id] == :keyword
         @ast << {token[:value] => nil}
       end
     end
-
-    puts "\nAST:"
-    puts "--------"
-    puts @ast
-    puts "--------\n\n"
 
     return @ast
   end

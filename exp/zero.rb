@@ -1,3 +1,5 @@
+#!/usr/bin/ruby -w
+
 require './lexer/lexer'
 require './parser/parser'
 
@@ -12,11 +14,23 @@ class ZeroScript
   def lexer
     lexer   = Lexer.new(@file)
     @tokens = lexer.run
+
+    if !@tokens.empty?
+      puts "\nTOKENS:"
+      puts "--------"
+      puts @tokens
+      puts "--------\n"
+    end
   end
 
   def parser
     parser = Parser.new(@tokens, @ast)
     @ast   = parser.run
+
+    puts "\nAST:"
+    puts "--------"
+    puts @ast
+    puts "--------\n\n"
   end
 
   def run

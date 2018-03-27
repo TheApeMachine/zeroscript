@@ -1,17 +1,13 @@
-class LexString
+class LexLabel
 
   def handle(state, char, tokens)
     if state == :start
-      if char == '"'
-        state = :start_string
-      end
-    elsif state == :start_string
-      if char == '"'
-        state = :end_string
+      if char == ':'
+        state = :end_label
       else
         tokens << char if char != "\n"
       end
-    elsif state == :end_string
+    elsif state == :end_label
       if char == "\n"
         state = :start
       end

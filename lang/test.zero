@@ -1,1 +1,6 @@
 "Hello World"
+goto jump_here
+"And we are back..."
+
+jump_here:
+  "We are here"
