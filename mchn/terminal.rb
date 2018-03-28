@@ -111,20 +111,9 @@ class Terminal
   end
 
   def line_feed
-    move_to(
-      @cur_pos[0] + 1,
-      0,
-      false
-    )
-
+    move_to(@cur_pos[0] + 1, 0, false)
     clear_line
-
-    move_to(
-      @cur_pos[0] + 3,
-      0,
-      false
-    )
-
+    move_to(@cur_pos[0] + 3, 0, false)
     color(:yellow, :black)
     echo ")"
     color(:green, :black)

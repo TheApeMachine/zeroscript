@@ -8,6 +8,8 @@ class Evaluator
   end
 
   def run(ast)
+    return if !ast
+    
     ast.each do |inst|
       send(inst.keys[0], inst.values[0])
     end

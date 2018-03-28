@@ -26,6 +26,8 @@ class Lexer
     when :subzero?
       if char == '>'
         build_token(:subzero, @cur_token.strip)
+      elsif char == '-'
+        build_token(:operator, :subtract)
       end
     end
   end
