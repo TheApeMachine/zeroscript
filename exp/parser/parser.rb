@@ -30,16 +30,6 @@ class Parser
       when :skip
         @state == :start
       end
-
-      # if token[:id] == :string
-      #   @ast << {token[:value] => nil}
-      # elsif token[:id] == :keyword
-      #   @ast << {token[:value] => nil}
-      # elsif token[:id] == :label
-      #   @ast << {token[:value] => nil}
-      # elsif token[:id] == :arg
-      #   @ast << {token[:value] => nil}
-      # end
     end
 
     return @ast

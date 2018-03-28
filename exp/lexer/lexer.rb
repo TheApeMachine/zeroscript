@@ -46,6 +46,12 @@ class Lexer
           @tokens << {id: :label, value: token.join}
           token    = []
           @state   = :start
+        elsif token.join.to_i.to_s == token.join
+          @tokens << {id: :integer, value: token.join.to_i}
+          token    = []
+        elsif token.join == '+'
+          @tokens << {id: :operation, value: :add}
+          token    = []
         else
           if !["\n"].include?(char)
             token << char

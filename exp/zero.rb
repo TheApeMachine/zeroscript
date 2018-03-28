@@ -51,7 +51,6 @@ class ZeroScript
   end
 
   def goto(label)
-    # raise @ast.select{|a| a[label]}.first.inspect
     run(@ast.select{|a| a[label]}.first)
   end
 
@@ -60,7 +59,7 @@ class ZeroScript
   end
 
   def method_missing(m, *args)
-    puts "#{m} #{args.join(' ')}"
+    puts "#{m} #{args.join(' ')}".strip
   end
 
 end
