@@ -7,12 +7,14 @@ require './evaluator'
 
 class Terminal
 
+  attr_accessor :cur_pos
+
   def initialize
     @lstate    = nil
-    @cstate    = '!state'
+    @cstate    = 'null'
     @lexer     = Lexer.new
     @parser    = Parser.new
-    @evaluator = Evaluator.new(@cstate)
+    @evaluator = Evaluator.new(@cstate, self)
     @csi       = "\e["
     @cursor    = "zero -> "
     @cur_pos   = [0, 0]
@@ -37,17 +39,26 @@ class Terminal
       move_to(@cur_pos[0] + 1, 0)
       color(:yellow, :black)
       echo ")"
+
+      color(:green, :black)
+      echo " => "
+      color(:white, :black)
+      echo @cstate
+
       move_to(@cur_pos[0] - 1, 3)
+      clear_line
       color(:white, :black)
     else
       echo(char)
       @cur_pos = [@cur_pos[0], @cur_pos[1] + 1]
 
       @lexer.add_char(char)
-      @parser.build_ast(@lexer.tokens.pop)
-      @evaluator.run(@parser.ast)
+      # debug(@lexer.tokens)
 
-      #debug(@evaluator.state)
+      @parser.build_ast(@lexer.tokens.pop)
+      debug(@parser.ast)
+
+      @evaluator.run(@parser.ast)
       @cstate = @evaluator.state
     end
   end
@@ -64,7 +75,11 @@ class Terminal
           if @cstate != @lstate
             rows, cols = $stdout.winsize
             move_to(@cur_pos[0] + 1, 3, false)
-            echo "=> #{@cstate}             "
+            color(:green, :black)
+            echo "=> "
+            color(:white, :black)
+            clear_line
+            echo @cstate
             move_to(@cur_pos[0], @cur_pos[1])
             @lstate = @cstate
           end
@@ -91,20 +106,41 @@ class Terminal
     move_to 1, 1
   end
 
+  def clear_line
+    $stdout.write "#{@csi}0K"
+  end
+
+  def line_feed
+    move_to(
+      @cur_pos[0] + 1,
+      0,
+      false
+    )
+
+    clear_line
+
+    move_to(
+      @cur_pos[0] + 3,
+      0,
+      false
+    )
+
+    color(:yellow, :black)
+    echo ")"
+    color(:green, :black)
+    echo " => "
+    color(:white, :black)
+    echo @cstate
+
+    move_to(@cur_pos[0], @cur_pos[1])
+  end
+
   def reset
     $stdout.write("#{@csi}0m")
   end
 
   def show_cursor
     $stdout.write @cursor
-  end
-
-  def save_cursor
-    $stdout.write "#{@csi}s"
-  end
-
-  def restore_cursor
-    $stdout.write("#{@csi}u")
   end
 
   def move_to(top, left, save=true)

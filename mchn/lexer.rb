@@ -18,6 +18,14 @@ class Lexer
         build_token(:integer, char.to_i)
       elsif char == '+'
         build_token(:operator, :add)
+      elsif char == '-'
+        @state = :subzero?
+      else
+        @cur_token << char
+      end
+    when :subzero?
+      if char == '>'
+        build_token(:subzero, @cur_token.strip)
       end
     end
   end

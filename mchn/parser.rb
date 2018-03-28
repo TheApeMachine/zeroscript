@@ -14,6 +14,9 @@ class Parser
         if token[:id] == :integer
           @ast   << {operate: [token[:value]]}
           @state  = :operate
+        elsif token[:id] == :subzero
+          @ast   << {token[:value] => []}
+          @state  = :subzero
         end
       when :operate
         if token[:id] == :operator
@@ -21,6 +24,8 @@ class Parser
         elsif token[:id] == :integer
           @ast[0][:operate] << token[:value]
         end
+      else
+        @state = :start
       end
     end
   end
