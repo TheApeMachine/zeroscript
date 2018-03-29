@@ -11,7 +11,7 @@ class Terminal
 
   def initialize
     @lstate    = nil
-    @cstate    = 'null'
+    @cstate    = :null
     @lexer     = Lexer.new
     @parser    = Parser.new
     @evaluator = Evaluator.new(@cstate, self)
@@ -31,8 +31,8 @@ class Terminal
   end
 
   def interpret(char)
-    case char
-    when "\r"
+    case char.ord
+    when 13
       move_to(@cur_pos[0] + 1, 0)
       color(:black, :black)
       echo " "
@@ -48,18 +48,25 @@ class Terminal
       move_to(@cur_pos[0] - 1, 3)
       clear_line
       color(:white, :black)
+    when 127
+      move_to(@cur_pos[0], @cur_pos[1] - 1)
+      echo ' '
+      move_to(@cur_pos[0], @cur_pos[1])
     else
       echo(char)
       @cur_pos = [@cur_pos[0], @cur_pos[1] + 1]
 
-      @lexer.add_char(char)
-      # debug(@lexer.tokens)
+      # @lexer.add_char(char)
+      # # debug(@lexer.tokens)
+      #
+      # @parser.build_ast(@lexer.tokens.pop)
+      # debug(@parser.ast)
 
-      @parser.build_ast(@lexer.tokens.pop)
-      debug(@parser.ast)
+      # @evaluator.run(@parser.ast)
 
-      @evaluator.run(@parser.ast)
+      @evaluator.interpret(char)
       @cstate = @evaluator.state
+      debug(@evaluator.icebox)
     end
   end
 
@@ -72,6 +79,10 @@ class Terminal
           interpret(char)
           break if char == ?\003
         else
+          @evaluator.icebox.each do |subzero|
+            debug(subzero)
+          end
+
           if @cstate != @lstate
             rows, cols = $stdout.winsize
             move_to(@cur_pos[0] + 1, 3, false)

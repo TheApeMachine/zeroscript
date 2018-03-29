@@ -1,33 +1,47 @@
 class Evaluator
 
-  attr_reader :state
+  attr_reader :state, :memory, :icebox
 
   def initialize(state, terminal)
-    @state    = state
-    @terminal = terminal
+    @innerstate = :start
+    @state      = state
+    @terminal   = terminal
+    @memory     = []
+    @icebox     = []
+    @cur_sub    = -1
   end
 
-  def run(ast)
-    return if !ast
-    
-    ast.each do |inst|
-      send(inst.keys[0], inst.values[0])
+  def interpret(char)
+    case @innerstate
+    when :start
+      if char == '+'
+        @state  = send(char)
+        @memory = []
+      elsif char == '-'
+        @innerstate = :subzero
+      else
+        if char != ' '
+          if char.to_i.to_s == char
+            @memory << char.to_i
+          else
+            @memory << char
+          end
+        end
+
+        @state = @memory.join
+      end
+    when :subzero
+      if char == '>'
+        subzero
+        @cur_sub += 1
+        @memory   = []
+      end
     end
-  # rescue => error
-  #   @state = error.class
   end
 
-  def operate(values)
-    @state = send(values[1], values[0], values[2])
-  rescue TypeError
-    @state = 'TypeError'
-  end
+  def subzero
+    @icebox << @memory.join
 
-  def add(x, y)
-    return x + y
-  end
-
-  def method_missing(m, *args)
     @terminal.line_feed
 
     @terminal.move_to(
@@ -58,6 +72,10 @@ class Evaluator
       @terminal.cur_pos[0] + 1,
       5
     )
+  end
+
+  def +
+    @memory.inject(0, :+)
   end
 
 end
